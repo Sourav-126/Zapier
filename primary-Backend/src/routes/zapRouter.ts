@@ -1,13 +1,12 @@
 import { Router } from "express";
 
 import { zapSchema } from "../types/types";
-import { client } from "../db/db";
-
+import { client } from "../db";
+import { authMiddleware } from "../middlewares";
 export const zapRouter = Router();
-//@ts-ignore
-router.post("/", authMiddleware, async (req, res) => {
-  // @ts-ignore
-  const id: string = req.id;
+zapRouter.post("/", authMiddleware, async (req, res) => {
+  //@ts-ignore
+  const id = req.id;
   const body = req.body;
   const parsedData = zapSchema.safeParse(body);
 
@@ -55,11 +54,10 @@ router.post("/", authMiddleware, async (req, res) => {
   });
 });
 
-//@ts-ignore
+zapRouter.get("/", authMiddleware, async (req, res) => {
+  //@ts-ignore
 
-router.get("/", authMiddleware, async (req, res) => {
-  // @ts-ignore
-  const id = req.id;
+  const id = req.id!;
   const zaps = await client.zap.findMany({
     include: {
       actions: {
@@ -79,11 +77,11 @@ router.get("/", authMiddleware, async (req, res) => {
     zaps,
   });
 });
-//@ts-ignore
 
-router.get("/:zapId", authMiddleware, async (req, res) => {
+zapRouter.get("/:zapId", authMiddleware, async (req, res) => {
   //@ts-ignore
-  const id = req.id;
+
+  const id = req.id!;
   const zapId = req.params.zapId;
 
   const zap = await client.zap.findFirst({

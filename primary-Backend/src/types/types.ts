@@ -2,12 +2,12 @@ import { z } from "zod";
 
 export const SignupData = z.object({
   name: z.string(),
-  email: z.email(),
+  email: z.string(),
   password: z.string().min(6),
 });
 
 export const SigninData = z.object({
-  email: z.email(),
+  email: z.string(),
   password: z.string().min(6),
 });
 

@@ -5,8 +5,10 @@ import { Icons } from "../icons";
 import { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { useRouter } from "next/navigation";
 
 export default function Signin() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -50,11 +52,14 @@ export default function Signin() {
         />
 
         <button
-          onClick={() => {
-            axios.post(`${BACKEND_URL}/ai/v1/user/signin`, {
+          onClick={async () => {
+            const res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
               email: email,
               password: password,
             });
+
+            localStorage.setItem("token", res.data);
+            router.push("/dashboard");
           }}
           type="submit"
           className="w-full px-4 py-2 rounded-md bg-amber-500 text-white font-medium hover:bg-amber-600 transition cursor-pointer"

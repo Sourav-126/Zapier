@@ -4,11 +4,14 @@ import { Icons } from "../icons";
 import { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { useRouter } from "next/navigation";
 
 export default function Signin() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const router = useRouter();
   return (
     <div className="flex justify-between items-center px-12 py-16 gap-12 ml-10">
       <div className="flex flex-col gap-6 max-w-xl">
@@ -57,22 +60,18 @@ export default function Signin() {
 
         <button
           onClick={() => {
-            axios.post(`${BACKEND_URL}/ai/v1/user/signin`, {
+            axios.post(`${BACKEND_URL}/api/v1/user/signup`, {
+              name: name,
               email: email,
               password: password,
             });
+            router.push("/signin");
           }}
           type="submit"
           className="w-full px-4 py-2 rounded-md bg-gray-300 text-white font-medium hover:bg-amber-800 transition cursor-pointer"
         >
           Submit
         </button>
-        <div className=" text-sm justify-center items-center text-center font-light">
-          Don't have account yet?{" "}
-          <Link className="text-blue-500" href={"/signup"}>
-            Sign up
-          </Link>
-        </div>
       </div>
     </div>
   );

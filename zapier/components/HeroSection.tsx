@@ -1,7 +1,10 @@
+"use client";
 import { Icons } from "@/app/icons";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export const HeroSection = () => {
+  const router = useRouter();
   return (
     <div className="flex justify-between items-center px-8 py-12">
       <div className="flex flex-col gap-4 max-w-lg">
@@ -16,7 +19,12 @@ export const HeroSection = () => {
           complexity. Just results.
         </div>
         <div className="flex gap-3 mt-4">
-          <button className="px-4 py-2 rounded-lg bg-amber-600 text-white cursor-pointer">
+          <button
+            className="px-4 py-2 rounded-lg bg-amber-600 text-white cursor-pointer"
+            onClick={() => {
+              router.push("/signup");
+            }}
+          >
             Start Free with Email
           </button>
           <button className="px-4 py-2 rounded-lg border flex cursor-pointer gap-2 ">
