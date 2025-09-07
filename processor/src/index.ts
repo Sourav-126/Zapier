@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+import e from "express";
 import { Kafka } from "kafkajs";
+import { json } from "stream/consumers";
 
 const client = new PrismaClient();
 
@@ -21,10 +23,12 @@ async function main() {
 
     producer.send({
       topic: TOPIC_NAME,
-      messages: pendingRows.map((r) => ({
-        value: r.zapRunId,
-      })),
-    });
+      messages: pendingRows.map((r) => {
+        return {
+          value:JSON.stringify(r.zapRunId, stage:0)
+        }
+      })
+    })
 
     await client.zapRunOutbox.deleteMany({
       where: {

@@ -144,7 +144,7 @@ function ZapTable({ zaps }: { zaps: Zap[] }) {
               day: "numeric",
               hour: "numeric",
               minute: "2-digit",
-            }).format(new Date(z.createdAt))}
+            }).format(new Date())}
           </div>
           <div className="flex-1">{`${HOOKS_URL}/hooks/catch/1/${z.id}`}</div>
           <div className="flex-1 flex flex-col justify-center items-center">
