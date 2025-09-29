@@ -106,3 +106,28 @@ exports.zapRouter.get("/:zapId", middlewares_1.authMiddleware, (req, res) => __a
         zap,
     });
 }));
+exports.zapRouter.delete("/:zapId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.zapId;
+    try {
+        const isZapExists = yield db_1.client.zap.findFirst({
+            where: {
+                id,
+            },
+        });
+        if (!isZapExists) {
+            return res.status(404).json({ message: "Zap doesn't exist" });
+        }
+        yield db_1.client.trigger.deleteMany({
+            where: { id },
+        });
+        yield db_1.client.zap.delete({
+            where: {
+                id,
+            },
+        });
+        return res.status(200).json({ message: "Zap deleted successfully" });
+    }
+    catch (err) {
+        console.log("Error deleting zap :", err);
+    }
+}));

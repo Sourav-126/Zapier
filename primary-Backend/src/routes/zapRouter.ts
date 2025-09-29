@@ -107,3 +107,31 @@ zapRouter.get("/:zapId", authMiddleware, async (req, res) => {
     zap,
   });
 });
+
+zapRouter.delete("/:zapId", async (req, res) => {
+  const id = req.params.zapId;
+
+  try {
+    const isZapExists = await client.zap.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!isZapExists) {
+      return res.status(404).json({ message: "Zap doesn't exist" });
+    }
+    await client.trigger.deleteMany({
+      where: { id },
+    });
+
+    await client.zap.delete({
+      where: {
+        id,
+      },
+    });
+    return res.status(200).json({ message: "Zap deleted successfully" });
+  } catch (err) {
+    console.log("Error deleting zap :", err);
+  }
+});
