@@ -1,4 +1,4 @@
-# ⚡ Zapier Clone – Workflow Automation
+# ⚡ Zapier – Workflow Automation for Web3
 
 A **Zapier-like automation platform** that lets users connect apps and create workflows using **Triggers → Actions**.
 This project demonstrates how automation tools work under the hood with event-driven architecture, messaging, and reliable processing.
